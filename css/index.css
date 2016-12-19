@@ -6,9 +6,11 @@
 }
 .odd>div:nth-child(odd){
 	background:#ccc;
+	
 }
 .even>div:nth-child(even){
 	background:#ccc;
+	
 }
 .odd>div,.even>div{
 	height:100%;

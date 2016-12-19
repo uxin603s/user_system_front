@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="col-xs-12 odd" style="height:50px;" >
+		<div class="col-xs-2">fb_id</div>
+		<div class="col-xs-1">名稱</div>
+		<div class="col-xs-2">email</div>
+		<div class="col-xs-1">性別</div>
+		<div class="col-xs-2">註冊時間</div>
+		<div class="col-xs-2">功能</div>
+	</div>
+	<div 
+	ng-class="$odd?'odd':'even'"
+	ng-repeat="item in list" 
+	class="col-xs-12" 
+	style="height:50px;">
+		<div class="col-xs-2">{{item.id}}</div>
+		<div class="col-xs-1">{{item.name}}</div>
+		<div class="col-xs-2">{{item.email}}</div>
+		<div class="col-xs-1">{{item.gender}}</div>
+		
+		<div class="col-xs-2">{{item.created_time_int*1000 |date:'yyyy-MM-dd HH:mm'}}</div>
+		
+		<div class="col-xs-2">
+			<div ng-if="item.uid" >
+				<button
+				class="btn btn-primary btn-sm"
+				>停權</button>
+			</div>
+			<div ng-if="!item.uid" >
+				<button
+				class="btn btn-primary btn-sm"
+				>註冊</button>
+				<button
+				class="btn btn-primary btn-sm"
+				>替代</button>
+			</div>
+		</div>
+	</div>
+</div>
