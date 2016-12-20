@@ -19,11 +19,10 @@ angular.module('cache',[])
 			delete cache.data.not_finish_flag;
 			$rootScope.$apply();
 		}
-		// console.log(cache.data)
-		setInterval(function(){
+		$rootScope.$watch("cache",function(){
 			cache.cache_time=Math.floor(Date.now()/1000);
 			localforage.setItem(location.pathname+"cache",angular.copy(cache));
-		},500)
+		},1)
 	});
 	$rootScope.__proto__.cache=cache.data;
 }])

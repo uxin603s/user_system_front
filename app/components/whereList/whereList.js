@@ -17,7 +17,6 @@ controller:["$scope",function($scope){
 			$scope.fieldName[i]=enName;
 			$scope.fieldNameR[enName]=i;
 		}
-		// console.log($scope.$ctrl.data.field)
 		$scope.$watch("$ctrl.whereList",function(){
 			$scope.$ctrl.callback();
 		},1)	
@@ -40,7 +39,7 @@ controller:["$scope",function($scope){
 	$scope.add_order_list=function(item){
 		var item=angular.copy(item);
 		var index=$scope.cache.order_list.findIndex(function(val){
-			return 	val.field==item.field 
+			return 	val.field==item.field;
 		})
 		
 		if(index==-1){
@@ -48,9 +47,7 @@ controller:["$scope",function($scope){
 		}else{
 			$scope.cache.order_list[index].type=item.type
 		}
-	}
-	
-	
+	}	
 	
 }],
 })

@@ -1,0 +1,45 @@
+<div class="container">
+	<div class="col-xs-12" style="height:50px;" >
+	{{message}}
+	</div>
+	<div class="col-xs-12" style="height:50px;" >
+		<pagnation
+		data="cache.limit"
+		callback="get"
+		></pagnation>
+	</div>
+	
+	<where-list 
+	data="fieldStruct" 
+	where-list="cache.where_list"
+	order-list="cache.order_list"
+	callback="get"
+	></where-list>
+	
+	<div class="col-xs-12" style="height:50px;" >
+		<input 
+		placeholder="新增帳號"
+		type="text" 
+		ng-enter="add(insert)" 
+		ng-model="insert.name" 
+		/>
+		{{insert}}
+	</div>
+	<div class="col-xs-12 odd" style="height:50px;" >
+		<div class="col-xs-1">ID</div>
+		<div class="col-xs-1">名稱</div>
+	</div>
+	<div 
+	ng-class="$odd?'odd':'even'"
+	ng-repeat="item in list" 
+	class="col-xs-12" 
+	style="height:50px;">
+		<div class="col-xs-1">{{item.id}}</div>
+		<div class="col-xs-1" >
+			<textarea 
+			ng-change="text_ch({name:item.name},{id:item.id})"
+			ng-model="item.name" ></textarea>
+		</div>
+		
+	</div>
+</div>

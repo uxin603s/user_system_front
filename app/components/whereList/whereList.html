@@ -11,7 +11,7 @@
 	>
 	{{$ctrl.data.field[fieldNameR[item.field]].name}}
 	{{where_list_type_arr[item.type]}}
-	{{$ctrl.data.field[fieldNameR[item.field]].list[item.value] || item.value}}
+	{{$ctrl.data.field[fieldNameR[item.field]].list[item.value].name || item.value}}
 	</button>
 	<button
 	sortable="$ctrl.orderList"
@@ -41,13 +41,14 @@
 	<div style="display:inline-block;">
 		<div ng-if="$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list">
 			<select 
-			ng-options="index as item for (index,item) in $ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list"
+			ng-options="item.id as item.name for item in $ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list"
 			ng-model="$ctrl.data.default.where.value"
 			></select>
 		</div>
 		<div ng-if="!$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list">
 			<input type="text"
 			ng-model="$ctrl.data.default.where.value"
+			ng-enter="add_where_list($ctrl.data.default.where);$ctrl.data.default.where.value=''"
 			/>
 		</div>
 	</div>

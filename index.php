@@ -20,16 +20,10 @@ if(!isset($_SESSION['uid'])){
 <script src="app/app.js?t=<?=time();?>"></script>
 <script src="app/components/fbRegisterList/fbRegisterList.js?t=<?=time();?>"></script>
 <script src="app/components/user/user.js?t=<?=time();?>"></script>
-<script>
-// angular.module('app')
-// .run(['$rootScope','tagSystem',function($rootScope,tagSystem){
-	// tagSystem.init("http://tag.cfd888.info/?wid=5");
-	// $("tag-system").append(tagSystem.iframe);
-	// $rootScope.__proto__.tagSystem=tagSystem.data;
-	// $rootScope.__proto__.Date=Date;
-	// $rootScope.$apply();
-// }])
-</script>
+<script src="app/components/webList/webList.js?t=<?=time();?>"></script>
+<script src="app/components/whereList/whereList.js?t=<?=time();?>"></script>
+<script src="app/factories/crud.js?t=<?=time();?>"></script>
+
 
 <script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
 <script src="app/directives/ngEnter/ngEnter.js?t=<?=time();?>"></script>
@@ -41,7 +35,14 @@ if(!isset($_SESSION['uid'])){
 
 </head>
 <body ng-app="app" class="container" style="overflow-y:scroll;">
-	<fb-register-list ng-if="0" ></fb-register-list>
-	<user  ></user>
+	<fb-register-list 
+	ng-if="0"
+	></fb-register-list>
+	
+	<user 
+	ng-if="0"	
+	></user>
+	<web-list 	
+	></web-list>
 </body>
 </html>
