@@ -1,0 +1,22 @@
+<button
+ng-class="cache.select_block==item.id?'btn-danger':'btn-primary'"
+ng-click="cache.select_block==item.id?cache.select_block=undefined:cache.select_block=item.id"
+ng-repeat="item in list"
+class="btn btn-sm"
+>{{item.name}}</button>
+
+<fb-register-list 
+ng-if="cache.select_block==1"
+></fb-register-list>
+
+<user-list 
+ng-if="cache.select_block==2"
+></user-list>
+
+<web-list 	
+ng-if="cache.select_block==3"
+></web-list>
+
+<role-data
+ng-if="cache.select_block==4"
+></role-data>

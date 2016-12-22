@@ -1,0 +1,17 @@
+<input 
+type="text" 
+ng-enter="relation({aid:aid,rid:$ctrl.rid,did:$ctrl.did,action:$ctrl.action});aid='';"
+ng-model="aid"
+style="width:50px;"
+/>
+<button 
+ng-show="item.aid"
+ng-click="relation(item)"
+ng-repeat="item in $ctrl.list[$ctrl.did][$ctrl.action]"
+class="btn btn-sm btn-danger"
+>{{item.aid}}</button>
+<button
+ng-class="$ctrl.list[$ctrl.did][$ctrl.action][0]?'btn-danger':'btn-primary'"
+ng-click="relation({aid:0,rid:$ctrl.rid,did:$ctrl.did,action:$ctrl.action})"
+class="btn btn-sm "
+>全部</button>

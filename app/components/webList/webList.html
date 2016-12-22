@@ -16,30 +16,121 @@
 	callback="get"
 	></where-list>
 	
-	<div class="col-xs-12" style="height:50px;" >
+	<div class="col-xs-12 row"  >
+		<div class="col-xs-12">
 		<input 
-		placeholder="新增帳號"
+		placeholder="新增網站名稱"
 		type="text" 
 		ng-enter="add(insert)" 
 		ng-model="insert.name" 
 		/>
-		{{insert}}
+		</div>
 	</div>
-	<div class="col-xs-12 odd" style="height:50px;" >
-		<div class="col-xs-1">ID</div>
-		<div class="col-xs-1">名稱</div>
+	
+	<div 
+	class="col-xs-12 row" 
+	>
+		<div class="col-xs-1">
+		id
+		</div>
+		<div class="col-xs-2">
+		網站名稱
+		</div>
+		<div class="col-xs-1">
+		新增資料表
+		</div>
+		<div class="col-xs-3">
+		資料表列表
+		</div>
+		<div class="col-xs-1">
+		新增角色
+		</div>
+		<div class="col-xs-3">
+		角色列表
+		</div>
+		<div class="col-xs-1">
+		功能
+		</div>
 	</div>
 	<div 
-	ng-class="$odd?'odd':'even'"
 	ng-repeat="item in list" 
-	class="col-xs-12" 
-	style="height:50px;">
-		<div class="col-xs-1">{{item.id}}</div>
-		<div class="col-xs-1" >
+	class="col-xs-12 row" 
+	>
+		<div class="col-xs-1">
+		{{item.id}}
+		</div>
+		<div class="col-xs-2">
 			<textarea 
 			ng-change="text_ch({name:item.name},{id:item.id})"
-			ng-model="item.name" ></textarea>
+			ng-model="item.name" 
+			></textarea>
+		</div>
+		<div class="col-xs-1">
+			<textarea 
+			ng-init="data.wid=item.id"
+			placeHolder="enter新增資料表"
+			ng-enter="addRelation('DataList',data)"
+			ng-model="data.name" 
+			></textarea>
 		</div>
 		
+		<div class="col-xs-3">	
+			<div
+			style="display:inline-block;"
+			ng-repeat="data in DataList[item.id]"
+			>
+				<button
+				ng-show="!show"
+				class="btn btn-sm btn-primary"
+				draggable="true"
+				sortable="DataList[item.id]"
+				index="$index"
+				ng-click="delRelation('DataList',data)"
+				
+				ng-right-click="show=!show"
+				>{{data.name}}</button>
+				<textarea 
+				ng-show="show"
+				ng-enter="chRelationText('DataList',{name:data.name},{id:data.id});show=!show"
+				ng-model="data.name" 
+				></textarea>
+			</div>
+		</div>
+		<div class="col-xs-1">
+			<textarea 
+			ng-init="role.wid=item.id"
+			placeHolder="enter新增角色"
+			ng-enter="addRelation('RoleList',role)"
+			ng-model="role.name" 
+			></textarea>
+		</div>
+		<div class="col-xs-3" >
+			<div
+			style="display:inline-block;"
+			ng-repeat="Role in RoleList[item.id]"
+			>
+				<button
+				class="btn btn-sm btn-primary"
+				ng-show="!show"
+				draggable="true"
+				sortable="RoleList[item.id]"
+				index="$index"
+				ng-right-click="show=!show"
+				ng-click="delRelation('RoleList',Role)"
+				
+				>{{Role.name}}</button>
+				<textarea 
+				ng-show="show"
+				ng-enter="chRelationText('RoleList',{name:Role.name},{id:Role.id});show=!show"
+				ng-model="Role.name" 
+				></textarea>
+			</div>
+		</div>
+		<div class="col-xs-1" >
+			<button
+			class="btn btn-sm btn-primary"
+			ng-click="del($index)"
+			>刪除</button>
+		</div>
 	</div>
 </div>

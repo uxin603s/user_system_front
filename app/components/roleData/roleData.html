@@ -1,0 +1,117 @@
+<div class="col-xs-12">	
+	<div class="col-xs-6 ">	
+		<h1>角色</h1>
+		<div class="col-xs-12">	
+			<button 
+			ng-click="cache.role_select=undefined;cache.role_wid_select==item.id?cache.role_wid_select=undefined:cache.role_wid_select=item.id"
+			ng-class="cache.role_wid_select==item.id?'btn-danger':'btn-primary'"
+			class="btn btn-sm" 
+			ng-repeat="item in webList"
+			>{{item.name}}</button>
+		</div>
+		<div class="col-xs-12">	
+			<button 
+			ng-class="cache.role_select==item.id?'btn-danger':'btn-primary'"
+			ng-click="cache.role_select==item.id?cache.role_select=undefined:cache.role_select=item.id"
+			ng-show="cache.role_wid_select==item.wid"
+			class="btn btn-sm " 
+			ng-repeat="item in RoleList"
+			>{{item.name}}</button>
+		</div>
+	</div>
+	<div class="col-xs-6">	
+		<h1>資料</h1>
+		<div class="col-xs-12">	
+			<button 
+			ng-click="cache.data_select=undefined;cache.data_wid_select==item.id?cache.data_wid_select==undefined:cache.data_wid_select=item.id"
+			ng-class="cache.data_wid_select==item.id?'btn-danger':'btn-primary'"
+			class="btn btn-sm" 
+			ng-repeat="item in webList"
+			>{{item.name}}</button>
+		</div>
+		<div class="col-xs-12">	
+			<button 
+			ng-class="cache.data_select==item.id?'btn-danger':'btn-primary'"
+			ng-click="cache.data_select==item.id?cache.data_select=undefined:cache.data_select=item.id"
+			ng-show="cache.data_wid_select==item.wid"
+			class="btn btn-sm " 
+			ng-repeat="item in DataList"
+			>{{item.name}}</button>
+		</div>
+	</div>
+</div>
+<div class="col-xs-12 ">	
+	<div class="col-xs-12 row">	
+		選擇角色:{{RoleListName[cache.role_select]||"無"}}
+	</div>
+	
+	<div 
+	class="col-xs-12 row" 
+	ng-if="cache.role_select"
+	>	
+		
+		
+		<div class="col-xs-2 ">	
+		資料表
+		</div>
+		<div class="col-xs-2 ">	
+		新增
+		</div>
+		<div class="col-xs-2 ">	
+		查詢
+		</div>
+		<div class="col-xs-2 ">	
+		修改
+		</div>
+		<div class="col-xs-2 ">	
+		刪除
+		</div>
+		
+	</div>
+	<div 
+	ng-if="cache.role_select && cache.data_select"
+	class="col-xs-12 row" 
+	>	
+		<div class="col-xs-2 ">
+			<button
+			class="btn btn-primary"
+			>{{webListName[DataListWid[cache.data_select]]}}.{{DataListName[cache.data_select]}}</button>
+		</div>
+		
+		<role-data-child
+		class="col-xs-2 "
+		ng-repeat="action in [1,2,3,4]"
+		list="list"
+		rid="cache.role_select"
+		did="cache.data_select"
+		action="action"
+		></role-data-child>
+		
+	</div>
+	
+	<div 
+	
+	ng-if="cache.data_select!=did"
+	
+	class="col-xs-12 row"
+	ng-repeat="(did,item) in list"
+	>	
+		<div 
+		class="col-xs-2 "
+		>
+			<button
+			class="btn btn-primary"
+			>{{webListName[DataListWid[did]]}}.{{DataListName[did]}}</button>
+		</div>
+		<role-data-child
+		
+		class="col-xs-2 "
+		ng-repeat="action in [1,2,3,4]"
+		list="list"
+		rid="cache.role_select"
+		did="did"
+		action="action"
+		></role-data-child>
+	</div>
+	
+</div>

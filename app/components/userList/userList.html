@@ -1,0 +1,123 @@
+<div class="col-xs-12" style="height:50px;" >
+{{message}}
+</div>
+<div class="col-xs-12" style="height:50px;" >
+	<pagnation
+	data="cache.user_limit"
+	callback="get"
+	></pagnation>
+</div>
+
+<where-list 
+data="fieldStruct" 
+where-list="cache.user_where_list"
+order-list="cache.user_order_list"
+callback="get"
+></where-list>
+
+<div class="col-xs-12 row"  >
+	<textarea 
+	style="width:100px;"
+	placeholder="新增帳號"
+	ng-init="insert={}"
+	ng-enter="add(insert)" 
+	ng-model="insert.name" 
+	></textarea>
+	
+</div>
+<div class="col-xs-12 row"  >
+	<div class="col-xs-1">
+		<textarea 
+		placeholder="使用者ID" 
+		ng-enter="add_where_list({field:'id',type:0,value:search.id});search.id=undefined;"
+		ng-model="search.id"
+		></textarea>
+	</div>
+	<div class="col-xs-1">
+		<textarea 
+		placeholder="名稱" 
+		ng-enter="add_where_list({field:'name',type:2,value:'%'+search.name+'%'});search.name=undefined;"
+		ng-model="search.name"
+		></textarea>
+	</div>
+	<div class="col-xs-1">擁有最高權限</div>
+	<div class="col-xs-6">
+		<select 
+		ng-options="web.id as web.name for web in weblist.list"
+		ng-model="weblist.select"
+		>
+		</select>
+		
+		<textarea 
+		ng-if="0"
+		style="width:100px;vertical-align: middle;"
+		placeholder="搜尋角色" 
+		
+		></textarea>
+	</div>
+	<div class="col-xs-2">
+		<textarea 
+		placeholder="綁定FB帳號ID" 
+		ng-enter="add_where_list({field:'fb_id',type:0,value:search.fb_id});search.fb_id=undefined;"
+		ng-model="search.fb_id"
+		></textarea>
+	</div>
+	<div class="col-xs-1">
+		<select 
+		ng-change="add_where_list({field:'status',type:0,value:search.status},1);"
+		ng-options="status.id as status.name for status in status_list"
+		ng-model="search.status"
+		>
+		</select>
+	
+	</div>
+</div>
+<div 
+ng-repeat="item in list" 
+class="col-xs-12 row" 
+>
+	<div class="col-xs-1">{{item.id}}</div>
+	
+	<div class="col-xs-1" >
+		<textarea 
+		
+		ng-change="text_ch({name:item.name},{id:item.id})"
+		ng-model="item.name" ></textarea>
+	</div>
+	<div class="col-xs-1" >
+		<button
+		ng-class="UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'btn-danger':'btn-primary'"
+		ng-click="special(item.id)"
+		class="btn"
+		>{{UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'O':'X'}}</button>	
+	</div>
+	<div class="col-xs-6">
+			
+		<select 
+		ng-options="role.id as role.name for role in rolelist.list |filter:{wid:weblist.select}"
+		ng-change="addUserRole({rid:rid,uid:item.id});rid=undefined"
+		ng-model="rid"
+		></select>
+		
+		<button
+		ng-show="rid!=0"
+		ng-click="delUserRole({rid:rid,uid:item.id})"
+		ng-repeat="rid in UserRole[item.id]"
+		class="btn btn-primary"
+		>{{weblist.name[rolelist.primary[rid].wid]}}.{{rolelist.primary[rid].name}}</button>		
+	</div>
+	
+	<div class="col-xs-2">
+		<textarea 
+		ng-change="text_ch({fb_id:item.fb_id},{id:item.id})"
+		ng-model="item.fb_id" ></textarea>
+	</div>
+	<div class="col-xs-1">
+		<select 
+		ng-change="ch({status:item.status},{id:item.id})"
+		ng-model="item.status"
+		ng-options="item.id as item.name for item in status_list"
+		>
+		</select>
+	</div>
+</div>
