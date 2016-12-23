@@ -25,12 +25,7 @@ controller:["$scope","whereListFunc",function($scope,whereListFunc){
 			$scope.$ctrl.callback();
 			$scope.add_order_list=whereListFunc.add_order_list.bind(this,$scope.$ctrl.orderList)
 		},1)
-	};	
-	
-	
-	
-	
-	
+	};		
 	
 }],
 })

@@ -52,10 +52,15 @@
 			></select>
 		</div>
 		<div ng-if="!$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list">
-			<input type="text"
-			ng-model="$ctrl.data.default.where.value"
-			ng-enter="add_where_list($ctrl.data.default.where);$ctrl.data.default.where.value=''"
-			/>
+			<span ng-if="$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].type">
+				
+			</span>
+			<span ng-if="!$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].type">
+				<input type="text"
+				ng-model="$ctrl.data.default.where.value"
+				ng-enter="add_where_list($ctrl.data.default.where);$ctrl.data.default.where.value=''"
+				/>
+			</span>
 		</div>
 	</div>
 	<button 

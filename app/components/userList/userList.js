@@ -18,11 +18,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 			{
 				enName:'name',
 				name:"名稱",
-			},
-			{
-				enName:'role',
-				name:"腳色",
-			},
+			},		
 			{
 				enName:'fb_id',
 				name:"FB綁定",
@@ -75,14 +71,14 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 	}
 		
 	$scope.add=function(arg){
-		console.log(arg)
-		arg.status=0
-		arg.created_time_int=Math.floor(Date.now()/1000);
+		// console.log(arg)
+		// arg.status=0
+		// arg.created_time_int=Math.floor(Date.now()/1000);
 		crud.add("UserList",arg)
 		.then(function(res){
 			delete arg.name;
 			if(res.status){
-				$scope.list.push(res.insert);
+				$scope.list.unshift(res.insert);
 				$scope.message="新增成功!!!"
 			}else{
 				$scope.message="新增失敗!!!"
@@ -250,6 +246,17 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 			$scope.delUserRole({rid:0,uid:uid},1);
 		}
 	}
-	
+	$scope.getAccessToken=function(item){
+		var post_data={
+			func_name:"UserList::getAccessToken"
+		}
+		$.post("ajax.php",post_data,function(res){
+			// console.log(res)
+			$scope.ch({access_token:res},{id:item.id});
+			item.access_token=res;
+			$scope.$apply();
+		},'json')
+		
+	}
 }],
 })

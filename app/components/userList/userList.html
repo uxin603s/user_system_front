@@ -41,7 +41,7 @@ callback="get"
 		></textarea>
 	</div>
 	<div class="col-xs-1">擁有最高權限</div>
-	<div class="col-xs-6">
+	<div class="col-xs-3">
 		<select 
 		ng-options="web.id as web.name for web in weblist.list"
 		ng-model="weblist.select"
@@ -54,6 +54,9 @@ callback="get"
 		placeholder="搜尋角色" 
 		
 		></textarea>
+	</div>
+	<div class="col-xs-3">
+		access_token
 	</div>
 	<div class="col-xs-2">
 		<textarea 
@@ -86,12 +89,13 @@ class="col-xs-12 row"
 	</div>
 	<div class="col-xs-1" >
 		<button
-		ng-class="UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'btn-danger':'btn-primary'"
+		ng-if="UserRole[item.id]"
+		ng-class="UserRole[item.id].indexOf(0)!=-1?'btn-danger':'btn-primary'"
 		ng-click="special(item.id)"
 		class="btn"
 		>{{UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'O':'X'}}</button>	
 	</div>
-	<div class="col-xs-6">
+	<div class="col-xs-3">
 			
 		<select 
 		ng-options="role.id as role.name for role in rolelist.list |filter:{wid:weblist.select}"
@@ -107,6 +111,14 @@ class="col-xs-12 row"
 		>{{weblist.name[rolelist.primary[rid].wid]}}.{{rolelist.primary[rid].name}}</button>		
 	</div>
 	
+	<div class="col-xs-3">
+		<button 
+		ng-click="getAccessToken(item);"
+		class="btn btn-primary"
+		>刷新</button>
+		{{item.access_token}}
+		
+	</div>
 	<div class="col-xs-2">
 		<textarea 
 		ng-change="text_ch({fb_id:item.fb_id},{id:item.id})"
