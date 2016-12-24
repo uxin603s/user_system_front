@@ -5,15 +5,16 @@ angular.module('cache',[])
 			not_finish_flag:true,
 		}
 	};
+	console.log('angular cache need subtree push');
 	localforage.getItem(location.pathname+"cache")
 	.then(function(data){
 		if(data){
 			for(var i in data.data){
 				cache.data[i]=data.data[i];
 			}			
-			delete cache.data.not_finish_flag;
-			$rootScope.$apply();
 		}
+		delete cache.data.not_finish_flag;
+		$rootScope.$apply();
 		$rootScope.$watch("cache",function(){
 			localforage.setItem(location.pathname+"cache",angular.copy(cache));
 		},1)
