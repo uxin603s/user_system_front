@@ -25,6 +25,7 @@ angular.module('app').factory('crud',
 			}
 			$.post("ajax.php",post_data,function(res){
 				resolve(res);
+				
 			},"json")
 		})
 	}

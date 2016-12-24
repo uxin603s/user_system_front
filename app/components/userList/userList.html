@@ -89,8 +89,7 @@ class="col-xs-12 row"
 	</div>
 	<div class="col-xs-1" >
 		<button
-		ng-if="UserRole[item.id]"
-		ng-class="UserRole[item.id].indexOf(0)!=-1?'btn-danger':'btn-primary'"
+		ng-class="UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'btn-danger':'btn-primary'"
 		ng-click="special(item.id)"
 		class="btn"
 		>{{UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'O':'X'}}</button>	

@@ -1,7 +1,9 @@
 <?php
 session_start();
-
-if(!isset($_SESSION['uid'])){
+if(isset($_SESSION['rid']) && in_array(0,$_SESSION['rid'])){
+	
+}else{
+	// header("location:login.php");
 	echo "權限不足";
 	exit;
 }
