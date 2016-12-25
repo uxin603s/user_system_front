@@ -8,10 +8,12 @@ angular.module('app').factory('crud',
 			}
 			
 			$.post("ajax.php",post_data,function(res){
-				if(res.status){
-					res.list.sort(function(a,b){
-						return a.sort_id-b.sort_id;
-					})
+				if(res && res.status && res.list.length){
+					if(!isNaN(res.list[0].sort_id)){
+						res.list.sort(function(a,b){
+							return a.sort_id-b.sort_id;
+						})
+					}
 				}
 				resolve(res)
 			},"json")

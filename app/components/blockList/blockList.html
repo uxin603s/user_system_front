@@ -1,0 +1,27 @@
+
+<div class="col-xs-12 row"  >
+	<div class="col-xs-4">
+		ip
+	</div>
+	<div class="col-xs-4">
+		解鎖時間
+	</div>
+	<div class="col-xs-4">
+		功能
+	</div>
+</div>
+<div 
+ng-repeat="item in list" 
+class="col-xs-12 row" 
+ng-show="item.lock_time-time>=0"
+>
+	<div class="col-xs-4">{{item.ip}}</div>
+	<div class="col-xs-4" >
+	{{item.lock_time-time}}秒
+	</div>
+	<div class="col-xs-4" >
+		<button class="btn btn-primary"
+		ng-click="unlock(item.ip)"
+		>解鎖</button>
+	</div>
+</div>

@@ -3,7 +3,7 @@ session_start();
 if(isset($_SESSION['rid']) && in_array(0,$_SESSION['rid'])){
 	
 }else{
-	// header("location:login.php");
+	header("location:login.php");
 	echo "權限不足";
 	exit;
 }
@@ -28,6 +28,9 @@ if(isset($_SESSION['rid']) && in_array(0,$_SESSION['rid'])){
 <script src="app/components/roleDataChild/roleDataChild.js?t=<?=time();?>"></script>
 <script src="app/components/whereList/whereList.js?t=<?=time();?>"></script>
 <script src="app/components/whereList/whereListFunc.js?t=<?=time();?>"></script>
+
+<script src="app/components/blockList/blockList.js?t=<?=time();?>"></script>
+
 <script src="app/factories/crud.js?t=<?=time();?>"></script>
 
 
