@@ -5,7 +5,7 @@ angular.module('cache',[])
 			not_finish_flag:true,
 		}
 	};
-	console.log('angular cache need subtree push');
+	
 	localforage.getItem(location.pathname+"cache")
 	.then(function(data){
 		if(data){
