@@ -1,10 +1,16 @@
 <?php
 session_start();
-if(isset($_SESSION['rid']) && in_array(0,$_SESSION['rid'])){
-	
+if(isset($_SESSION['rid'])){
+	if(in_array(0,$_SESSION['rid'])){
+		
+	}else{
+		echo "<pre>";
+		var_dump($_SESSION);
+		echo "權限不足";
+		exit;
+	}
 }else{
 	header("location:login.php");
-	echo "權限不足";
 	exit;
 }
 ?>
@@ -43,6 +49,10 @@ if(isset($_SESSION['rid']) && in_array(0,$_SESSION['rid'])){
 
 </head>
 <body ng-app="app"  style="overflow-y:scroll;">
+<pre>
+<?=$_SESSION['name']?$_SESSION['name']:"最高高權限"?>
+<?=json_encode($_SESSION['rid'])?>
+</pre>
 	<index 
 	ng-if="!cache.not_finish_flag"
 	class="container"
