@@ -12,7 +12,6 @@ controller:["$scope","crud",function($scope,crud){
 	},1000)
 	crud.get("BlockList")
 	.then(function(res){
-		console.log(res)
 		if(res.status){
 			$scope.list=res.list;
 			$scope.$apply();
