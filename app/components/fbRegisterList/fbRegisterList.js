@@ -89,7 +89,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 		if(item.uid){
 			var update={
 				fb_id:item.id,
-				name:item.name,
+				// name:item.name,
 			}
 			var where={
 				id:item.uid,
