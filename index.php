@@ -26,6 +26,7 @@ if(isset($_SESSION['rid'])){
 <script src="js/localForage-1.4.2.min.js"></script>
 <script src="js/postMessageHelper/postMessageHelper.js"></script>
 <script src="app/module/cache/cache.js?t=<?=time();?>"></script>
+<script src="app/module/whereList/whereList.js?t=<?=time();?>"></script>
 
 <script src="app/app.js?t=<?=time();?>"></script>
 <script src="app/components/index/index.js?t=<?=time();?>"></script>
@@ -34,8 +35,8 @@ if(isset($_SESSION['rid'])){
 <script src="app/components/webList/webList.js?t=<?=time();?>"></script>
 <script src="app/components/roleData/roleData.js?t=<?=time();?>"></script>
 <script src="app/components/roleDataChild/roleDataChild.js?t=<?=time();?>"></script>
-<script src="app/components/whereList/whereList.js?t=<?=time();?>"></script>
-<script src="app/components/whereList/whereListFunc.js?t=<?=time();?>"></script>
+
+
 
 <script src="app/components/blockList/blockList.js?t=<?=time();?>"></script>
 
