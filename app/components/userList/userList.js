@@ -63,6 +63,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 					$scope.list=res.list;
 				}else{
 					$scope.list=[];
+					if(res.reload){
+						location.reload();
+					}
 				}
 				$scope.cache.user_limit.total_count=res.total_count;
 				$scope.$apply();
@@ -82,6 +85,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				$scope.message="新增成功!!!"
 			}else{
 				$scope.message="新增失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -109,6 +115,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				$scope.message="修改成功!!!"
 			}else{
 				$scope.message="修改失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -153,6 +162,10 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				}
 				$scope.weblist.select=res.list[0].id;
 				// $scope.selectRole($scope.weblist.select)
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -167,11 +180,14 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 			$scope.rolelist.list=[];
 			$scope.rolelist.primary={};
 			if(res.status){
-				
 				$scope.rolelist.list=res.list;
 				for(var i in res.list){
 					var item=res.list[i]
 					$scope.rolelist.primary[item.id]=item;
+				}
+			}else{
+				if(res.reload){
+					location.reload();
 				}
 			}
 			$scope.$apply();
@@ -198,6 +214,10 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 					$scope.UserRole[uid] || ($scope.UserRole[uid]=[]);
 					$scope.UserRole[uid].push(rid);
 				}
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -213,6 +233,10 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				$scope.UserRole[uid].push(rid);
 				$scope.getRole([rid]);
 				$scope.$apply();
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 		})
 	}
@@ -234,6 +258,10 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				}
 				
 				$scope.$apply();
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 		})
 	}
@@ -251,10 +279,15 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 			func_name:"UserList::getAccessToken"
 		}
 		$.post("ajax.php",post_data,function(res){
-			// console.log(res)
-			$scope.ch({access_token:res},{id:item.id});
-			item.access_token=res;
-			$scope.$apply();
+			if(res.status){
+				$scope.ch({access_token:res.access_token},{id:item.id});
+				item.access_token=res.access_token;
+				$scope.$apply();
+			}else{
+				if(res.reload){
+					location.reload();
+				}
+			}
 		},'json')
 		
 	}

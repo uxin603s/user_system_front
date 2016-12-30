@@ -50,6 +50,9 @@ controller:["$scope","crud",function($scope,crud){
 				}else{
 					$scope.message="完成查詢，沒有資料!!";
 					$scope.list=[];
+					if(res.reload){
+						location.reload();
+					}
 				}
 				// console.log(res)
 				$scope.cache.limit.total_count=res.total_count;
@@ -68,6 +71,9 @@ controller:["$scope","crud",function($scope,crud){
 				$scope.message="新增成功!!!"
 			}else{
 				$scope.message="新增失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -81,6 +87,9 @@ controller:["$scope","crud",function($scope,crud){
 				$scope.message="刪除成功!!!"
 			}else{
 				$scope.message="刪除失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		});
@@ -107,6 +116,9 @@ controller:["$scope","crud",function($scope,crud){
 				$scope.message="修改成功!!!"
 			}else{
 				$scope.message="修改失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -133,6 +145,9 @@ controller:["$scope","crud",function($scope,crud){
 				$scope.message="新增成功!!!"
 			}else{
 				$scope.message="新增失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -159,6 +174,10 @@ controller:["$scope","crud",function($scope,crud){
 					var item=res.list[i];
 					$scope[table][item.wid] || ($scope[table][item.wid]=[])
 					$scope[table][item.wid].push(item);
+				}
+			}else{
+				if(res.reload){
+					location.reload();
 				}
 			}
 			
@@ -187,6 +206,9 @@ controller:["$scope","crud",function($scope,crud){
 				$scope.message="刪除成功!!!"
 			}else{
 				$scope.message="刪除失敗!!!"
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -206,6 +228,9 @@ controller:["$scope","crud",function($scope,crud){
 					$scope.message="修改成功!!!"
 				}else{
 					$scope.message="修改失敗!!!"
+					if(res.reload){
+						location.reload();
+					}
 				}
 				$scope.$apply();
 			})

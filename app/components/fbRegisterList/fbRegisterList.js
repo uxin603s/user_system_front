@@ -68,6 +68,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 					$scope.list=res.list;
 				}else{
 					$scope.list=[];
+					if(res.reload){
+						location.reload();
+					}
 				}
 				$scope.cache.fbR_limit.total_count=res.total_count
 				$scope.$apply();
@@ -101,6 +104,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 					alert("註冊成功")
 				}else{
 					alert("註冊失敗")
+					if(res.reload){
+						location.reload();
+					}
 				}
 				$scope.$apply();
 			})
@@ -117,6 +123,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 					alert("註冊成功")
 				}else{
 					alert("註冊失敗")
+					if(res.reload){
+						location.reload();
+					}
 				}
 				$scope.$apply();
 			})

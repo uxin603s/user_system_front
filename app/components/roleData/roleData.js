@@ -19,6 +19,10 @@ controller:["$scope","crud",function($scope,crud){
 					$scope[table+"NameR"][res.list[i].name]=res.list[i].id;
 					$scope[table+"Wid"][res.list[i].id]=res.list[i].wid;
 				}
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 			$scope.$apply();
 		})
@@ -45,6 +49,10 @@ controller:["$scope","crud",function($scope,crud){
 					$scope.list[item.did] || ($scope.list[item.did]={});
 					$scope.list[item.did][item.action] || ($scope.list[item.did][item.action]={});
 					$scope.list[item.did][item.action][item.aid]=item;
+				}
+			}else{
+				if(res.reload){
+					location.reload();
 				}
 			}
 			$scope.$apply();

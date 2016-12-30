@@ -19,6 +19,10 @@ controller:["$scope","crud",function($scope,crud){
 					delete $scope.$ctrl.list[item.did];
 				}
 				$scope.$apply();
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 			
 		})
@@ -31,6 +35,10 @@ controller:["$scope","crud",function($scope,crud){
 				$scope.$ctrl.list[item.did][item.action] || ($scope.$ctrl.list[item.did][item.action]={});
 				$scope.$ctrl.list[item.did][item.action][item.aid]=item;
 				$scope.$apply();
+			}else{
+				if(res.reload){
+					location.reload();
+				}
 			}
 		})
 	}

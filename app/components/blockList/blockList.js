@@ -15,6 +15,10 @@ controller:["$scope","crud",function($scope,crud){
 		if(res.status){
 			$scope.list=res.list;
 			$scope.$apply();
+		}else{
+			if(res.reload){
+				location.reload();
+			}
 		}
 	})
 	$scope.unlock=function(index){
