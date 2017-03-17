@@ -66,6 +66,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				$scope.message="完成查詢!!";
 				if(res.status){
 					$scope.list=res.list;
+					console.log($scope.list)
 				}else{
 					$scope.list=[];
 					if(res.reload){

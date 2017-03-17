@@ -5,9 +5,9 @@ bindings:{
 templateUrl:'app/components/userList/userList.html?t='+Date.now(),
 controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 	$scope.status_list=[
-		{id:0,name:"空缺"},
-		{id:1,name:"在職"},
-		{id:2,name:"離職"},
+		{id:"0",name:"空缺"},
+		{id:"1",name:"在職"},
+		{id:"2",name:"離職"},
 	]
 	$scope.fieldStruct={
 		field:[
@@ -58,6 +58,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				limit:$scope.cache.user_limit,
 			})
 			.then(function(res){
+				
 				$scope.message="完成查詢!!";
 				if(res.status){
 					$scope.list=res.list;
@@ -225,6 +226,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 	$scope.addUserRole=function(item){
 		crud.add("UserRole",item)
 		.then(function(res){
+			console.log(res)
 			if(res.status){
 				var item=res.insert;
 				var uid=item.uid;
@@ -234,9 +236,9 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				$scope.getRole([rid]);
 				$scope.$apply();
 			}else{
-				if(res.reload){
-					location.reload();
-				}
+				// if(res.reload){
+					// location.reload();
+				// }
 			}
 		})
 	}
@@ -247,6 +249,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 		if(!no_check && !confirm("確定刪除角色?!!"))return;
 		crud.del("UserRole",item)
 		.then(function(res){
+			console.log(res)
 			if(res.status){
 				var uid=item.uid;
 				var rid=item.rid;
@@ -259,6 +262,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 				
 				$scope.$apply();
 			}else{
+				
 				if(res.reload){
 					location.reload();
 				}
@@ -266,7 +270,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 		})
 	}
 	$scope.special=function(uid){
-		if(!$scope.UserRole[uid] || $scope.UserRole[uid].indexOf(0)==-1){
+		if(!$scope.UserRole[uid] || $scope.UserRole[uid].indexOf("0")==-1){
 			if(!confirm("確定新增最高權限?"))return;
 			$scope.addUserRole({rid:0,uid:uid});
 		}else{

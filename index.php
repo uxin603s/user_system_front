@@ -7,7 +7,7 @@ if(isset($_SESSION['rid'])){
 		
 	}else{
 		echo "<pre>";
-		var_dump($_SESSION);
+		var_dump($_SESSION); 
 		echo "權限不足";
 		exit;
 	}
@@ -49,7 +49,11 @@ if(isset($_SESSION['rid'])){
 <script src="app/directives/sortable/sortable.js?t=<?=time();?>"></script>
 
 <link rel="stylesheet" type="text/css" href="css/index.css?t=<?=time();?>">
-
+<script>
+if(window.location.hash){
+	window.location.href="http://"+window.location.hostname+window.location.pathname;
+}
+</script>
 </head>
 <body ng-app="app"  style="overflow-y:scroll;">
 <pre>

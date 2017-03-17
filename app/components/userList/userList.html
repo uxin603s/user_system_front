@@ -89,10 +89,10 @@ class="col-xs-12 row"
 	</div>
 	<div class="col-xs-1" >
 		<button
-		ng-class="UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'btn-danger':'btn-primary'"
+		ng-class="UserRole[item.id] && UserRole[item.id].indexOf('0')!=-1?'btn-danger':'btn-primary'"
 		ng-click="special(item.id)"
 		class="btn"
-		>{{UserRole[item.id] && UserRole[item.id].indexOf(0)!=-1?'O':'X'}}</button>	
+		>{{UserRole[item.id] && UserRole[item.id].indexOf('0')!=-1?'O':'X'}}</button>	
 	</div>
 	<div class="col-xs-3">
 			
@@ -119,6 +119,7 @@ class="col-xs-12 row"
 		
 	</div>
 	<div class="col-xs-2">
+		{{item.fb_id}}
 		<textarea 
 		ng-change="text_ch({fb_id:item.fb_id},{id:item.id})"
 		ng-model="item.fb_id" ></textarea>
