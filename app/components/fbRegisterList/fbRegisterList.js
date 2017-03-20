@@ -10,7 +10,11 @@ controller:["$scope",function($scope){
 		{id:2,name:"已拒絕"},
 	];
 	
-	
+	$scope.$ctrl.cache || ($scope.$ctrl.cache={
+		limit:{page:0,count:10,total_count:0},
+		where_list:[{field:'status',type:0,value:0}],
+		order_list:[{field:'created_time_int',type:1}],
+	})
 	// $scope.cache.fbR_limit || ($scope.cache.fbR_limit={page:0,count:10,total_count:0});
 	// $scope.cache.fbR_where_list || ($scope.cache.fbR_where_list=[{field:'status',type:0,value:0}]);
 	// $scope.cache.fbR_order_list || ($scope.cache.fbR_order_list=[{field:'created_time_int',type:1}]);
