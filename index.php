@@ -24,8 +24,8 @@ if(isset($_SESSION['rid'])){
 <script src="js/angular.min.js"></script>
 <script src="js/localForage-1.4.2.min.js"></script>
 <script src="js/postMessageHelper/postMessageHelper.js"></script>
-<script src="app/module/cache/cache.js?t=<?=time();?>"></script>
-<script src="app/module/whereList/whereList.js?t=<?=time();?>"></script>
+<script src="app/modules/cache/cache.js?t=<?=time();?>"></script>
+<script src="app/modules/param/param.js?t=<?=time();?>"></script>
 
 <script src="app/app.js?t=<?=time();?>"></script>
 <script src="app/components/index/index.js?t=<?=time();?>"></script>
