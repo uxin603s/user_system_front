@@ -1,86 +1,118 @@
 angular.module('app').component("userList",{
 bindings:{
-	
+	cache:"=",
 },
 templateUrl:'app/components/userList/userList.html?t='+Date.now(),
-controller:["$scope",function($scope){
-	$scope.status_list=[
-		{id:"0",name:"空缺"},
-		{id:"1",name:"在職"},
-		{id:"2",name:"離職"},
-	]
-	$scope.fieldStruct={
-		field:[
-			{
-				enName:'id',
-				name:"ID",
-			},
-			{
-				enName:'name',
-				name:"名稱",
-			},		
-			{
-				enName:'fb_id',
-				name:"FB綁定",
-			},
-			{
-				enName:'status',
-				name:"狀態",
-				list:$scope.status_list,
-			},
-			{
-				enName:'created_time_int',
-				name:"創建時間",
-			},
-		],
-		order:["created_time_int","id"],
-		default:{
-			where:{field:'status',type:"0",value:1},
-			order:{field:'created_time_int',type:"1"},
+controller:["$scope","$http","$timeout",function($scope,$http,$timeout){
+	$scope.status_list=["空缺","在職","離職"];
+	
+	$scope.$ctrl.$onInit=function(){
+		$scope.$ctrl.cache.limit || ($scope.$ctrl.cache.limit={page:0,count:10,total_count:0});
+		$scope.$ctrl.cache.where_list || ($scope.$ctrl.cache.where_list={});
+		$scope.$ctrl.cache.order_list || ($scope.$ctrl.cache.order_list=[]);
+		$scope.$ctrl.cache.select_wid || ($scope.$ctrl.cache.select_wid=[]);
+		$scope.$ctrl.cache.searchRole || ($scope.$ctrl.cache.searchRole=[]);
+		
+		var timer;
+		$scope.page_get=function(){
+			clearTimeout(timer);
+			timer=setTimeout($scope.get,50);
 		}
+		var timer1;
+		$scope.$watch("list",function(list){
+			if(!list)return;
+			$timeout.cancel(timer1);
+			timer1=$timeout(function(){
+				var uids=$scope.list.map(function(val){return val.id});
+				$scope.getUserRole(uids)
+			},50)
+		},1)
+		$scope.getWebList();
+		$scope.$watch("$ctrl.cache.select_wid",function(select_wid){
+			$scope.getRoleList(select_wid);
+		},1)
+		
+		$scope.$watch("$ctrl.cache.where_list",$scope.page_get,1)
+		$scope.$watch("$ctrl.cache.searchRole",function(searchRole){
+			// console.log(searchRole)
+			$scope.$ctrl.cache.where_list.id=[];
+			
+			if(searchRole.length){
+				for(var i in searchRole){
+					var rid=searchRole[i];
+					var where_list=[
+						{field:'rid',type:0,value:rid},
+					];
+					var post_data={
+						func_name:"UserRole::getList",
+						arg:{
+							where_list:where_list,
+						},
+					};
+					$http.post("ajax.php",post_data).then(function(result){
+						var res=result.data;
+						if(res.status){
+							for(var i in res.list){
+								var item=res.list[i];
+								var uid=item.uid;
+								if($scope.$ctrl.cache.where_list.id.indexOf(uid)==-1){
+									$scope.$ctrl.cache.where_list.id.push(uid);
+								}
+							}
+						}
+					})
+				}
+			}
+			
+		},1)
 	}
-	
-	$scope.cache.user_limit || ($scope.cache.user_limit={page:0,count:10,total_count:0});
-	$scope.cache.user_where_list || ($scope.cache.user_where_list=[{field:'status',type:0,value:1}]);
-	$scope.cache.user_order_list || ($scope.cache.user_order_list=[]);
-	
-	// $scope.add_where_list=whereListFunc.add_where_list.bind(this,$scope.cache.user_where_list);
-	// $scope.add_order_list=whereListFunc.add_order_list.bind(this,$scope.cache.user_order_list);
-	
 	
 	$scope.get=function(){
-		return
-		clearTimeout($scope.getTimer);
-		$scope.getTimer=setTimeout(function(){
-			$scope.message="查詢中...";
-			crud.get("UserList",{
-				where_list:$scope.cache.user_where_list,//.concat($scope.cache.user_where_list)
-				order_list:$scope.cache.user_order_list,
-				limit:$scope.cache.user_limit,
-			})
-			.then(function(res){
-				
-				$scope.message="完成查詢!!";
-				if(res.status){
-					$scope.list=res.list;
-				}else{
-					$scope.list=[];
-					if(res.reload){
-						location.reload();
-					}
+		$scope.message="查詢中...";
+		var where_list=[];
+		var id=$scope.$ctrl.cache.where_list.id;
+		if(id.length){
+			for(var i in id){
+				where_list.push({field:'id',type:0,value:id[i]})
+			}
+		}
+		var status=$scope.$ctrl.cache.where_list.status;
+		if(!isNaN(status)){
+			where_list.push({field:'status',type:0,value:status})
+		}
+		var name=$scope.$ctrl.cache.where_list.name;
+		if(name){
+			where_list.push({field:'name',type:2,value:"%"+name+"%"})
+		}
+		var post_data={
+			func_name:"UserList::getList",
+			arg:{
+				where_list:where_list,
+				limit:$scope.$ctrl.cache.limit,
+			},
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			$scope.message="完成查詢!!";
+			if(res.status){
+				$scope.list=res.list;
+				$scope.$ctrl.cache.limit.total_count=res.total_count;
+			}else{
+				$scope.list=[];
+				$scope.$ctrl.cache.limit.total_count=0;
+				if(res.reload){
+					location.reload();
 				}
-				$scope.cache.user_limit.total_count=res.total_count;
-				$scope.$apply();
-			})
-		},50)
+			}
+		})
 	}
-		
 	$scope.add=function(arg){
-		// console.log(arg)
-		// arg.status=0
-		// arg.created_time_int=Math.floor(Date.now()/1000);
-		crud.add("UserList",arg)
-		.then(function(res){
+		var post_data={
+			func_name:"UserList::insert",
+			arg:arg,
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
 			delete arg.name;
 			if(res.status){
 				$scope.list.unshift(res.insert);
@@ -91,212 +123,195 @@ controller:["$scope",function($scope){
 					location.reload();
 				}
 			}
-			$scope.$apply();
 		})
 	}
-	
-	$scope.ch=function(update,where,callback){
-		$scope.message="修改中...";
-		var ch_item=$scope.list.find(function(val){
-			var flag=true;
-			for(var i in where){
-					flag=flag && val[i]==where[i];
-			}
-			return flag;
-		})
-		callback && callback(ch_item,update,where);
-		crud.ch("UserList",{
-			update:update,
-			where:where,
-		})
-		.then(function(res){
-			if(res.status){
-				for(var i in update){
-					ch_item[i]=update[i];
-				}
-				$scope.message="修改成功!!!"
-			}else{
-				$scope.message="修改失敗!!!"
-				if(res.reload){
-					location.reload();
-				}
-			}
-			$scope.$apply();
+	$scope.ch=function(update,where){
+		var post_data={
+			func_name:"UserList::update",
+			arg:{
+				update:update,
+				where:where,
+			},
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			console.log(res)
+			
 		})
 	}
-	
-	$scope.text_ch=function(update,where){
-		$scope.message="修改中...";
-		var timer_name="text_change_timer";
-		for(var i in where){
-			timer_name+=i+":"+where[i];
-		}
-		clearTimeout($scope[timer_name]);
-		$scope[timer_name]=setTimeout(function(){
-			$scope.ch(update,where)
-		},500)
-	}
-	
-	$scope.$watch("list",function(list){
-		if(!list)return;
-		var timer_name="get_user_role_timer";
-		clearTimeout($scope[timer_name]);
-		$scope[timer_name]=setTimeout(function(){
-			var uids=list.map(function(val){
-				return val.id;
-			})
-			$scope.UserRole={};
-			$scope.getUserRole(uids);			
-		},50)
-	},1)
-	
-	$scope.weblist={};
-	$scope.getWeb=function(){
-		return
-		crud.get("webList")
-		.then(function(res){
-			$scope.weblist.list=[];
-			$scope.weblist.name={};
-			delete $scope.weblist.select;
-			if(res.status){
-				$scope.weblist.list=res.list;
-				for(var i in res.list){
-					$scope.weblist.name[res.list[i].id]=res.list[i].name;
-				}
-				$scope.weblist.select=res.list[0].id;
-				// $scope.selectRole($scope.weblist.select)
-			}else{
-				if(res.reload){
-					location.reload();
-				}
-			}
-			$scope.$apply();
-		})
-	}
-	
-	$scope.getWeb();
-	
-	$scope.rolelist={};
-	$scope.getRole=function(){
-		return
-		crud.get("roleList")
-		.then(function(res){
-			$scope.rolelist.list=[];
-			$scope.rolelist.primary={};
-			if(res.status){
-				$scope.rolelist.list=res.list;
-				for(var i in res.list){
-					var item=res.list[i]
-					$scope.rolelist.primary[item.id]=item;
-				}
-			}else{
-				if(res.reload){
-					location.reload();
-				}
-			}
-			$scope.$apply();
-		})
-	}
-	$scope.getRole();
-	
-	
+	// UserRole
+	$scope.UserRole={};
 	$scope.getUserRole=function(uids){
 		var where_list=[];
 		for(var i in uids){
 			where_list.push({field:'uid',type:0,value:uids[i]})
 		}
-		crud.get("UserRole",{
-			where_list:where_list,
-		})
-		.then(function(res){
-			$scope.UserRole={};
+		var post_data={
+			func_name:"UserRole::getList",
+			arg:{
+				where_list:where_list,
+			},
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
 			if(res.status){
 				for(var i in res.list){
 					var item=res.list[i];
 					var uid=item.uid;
 					var rid=item.rid;
-					$scope.UserRole[uid] || ($scope.UserRole[uid]=[]);
-					$scope.UserRole[uid].push(rid);
+					$scope.UserRole[uid] || ($scope.UserRole[uid]={});
+					$scope.UserRole[uid][rid]=item
 				}
-			}else{
-				if(res.reload){
-					location.reload();
-				}
+				var rids=res.list.map(function(val){return val.rid});
+				// $scope.getRoleList(rids)
 			}
-			$scope.$apply();
+			
 		})
 	}
-	$scope.addUserRole=function(item){
-		crud.add("UserRole",item)
-		.then(function(res){
-			console.log(res)
-			if(res.status){
-				var item=res.insert;
-				var uid=item.uid;
-				var rid=item.rid;
-				$scope.UserRole[uid] || ($scope.UserRole[uid]=[]);
-				$scope.UserRole[uid].push(rid);
-				$scope.getRole([rid]);
-				$scope.$apply();
-			}else{
-				// if(res.reload){
-					// location.reload();
-				// }
-			}
-		})
-	}
-	
-	
-	
-	$scope.delUserRole=function(item,no_check){
-		if(!no_check && !confirm("確定刪除角色?!!"))return;
-		crud.del("UserRole",item)
-		.then(function(res){
-			console.log(res)
-			if(res.status){
-				var uid=item.uid;
-				var rid=item.rid;
-				var index=$scope.UserRole[uid].findIndex(function(val){
-					return val==rid;
-				})
-				if(index!=-1){
-					$scope.UserRole[uid].splice(index,1)
-				}
-				
-				$scope.$apply();
-			}else{
-				
-				if(res.reload){
-					location.reload();
-				}
-			}
-		})
-	}
-	$scope.special=function(uid){
-		if(!$scope.UserRole[uid] || $scope.UserRole[uid].indexOf("0")==-1){
-			if(!confirm("確定新增最高權限?"))return;
-			$scope.addUserRole({rid:0,uid:uid});
-		}else{
-			if(!confirm("確定移除最高權限?"))return;
-			$scope.delUserRole({rid:0,uid:uid},1);
-		}
-	}
-	$scope.getAccessToken=function(item){
+	$scope.delUserRole=function(arg){
 		var post_data={
-			func_name:"UserList::getAccessToken"
-		}
-		$.post("ajax.php",post_data,function(res){
+			func_name:"UserRole::delete",
+			arg:arg,
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
 			if(res.status){
-				$scope.ch({access_token:res.access_token},{id:item.id});
-				item.access_token=res.access_token;
-				$scope.$apply();
-			}else{
-				if(res.reload){
-					location.reload();
-				}
+				var uid=arg.uid;
+				var rid=arg.rid;
+				delete $scope.UserRole[uid][rid];
 			}
-		},'json')
-		
+			console.log(res)
+		})
 	}
+	$scope.addUserRole=function(arg){
+		var post_data={
+			func_name:"UserRole::insert",
+			arg:arg,
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			console.log(res)
+			if(res.status){
+				var uid=arg.uid;
+				var rid=arg.rid;
+				$scope.UserRole[uid] || ($scope.UserRole[uid]={});
+				$scope.UserRole[uid][rid]=arg;
+			}
+		})
+	}
+	$scope.swUserRole=function(arg){
+		if($scope.UserRole[arg.uid] && $scope.UserRole[arg.uid][arg.rid]){
+			$scope.delUserRole(arg);
+		}else{
+			$scope.addUserRole(arg);
+		}
+	}
+	
+	
+	$scope.getRoleList=function(wids){
+		$scope.RoleList={};
+		if(!wids.length){
+			return
+		}
+
+		var where_list=[];
+		for(var i in wids){
+			where_list.push({field:'wid',type:0,value:wids[i]})
+		}
+		
+		var post_data={
+			func_name:"RoleList::getList",
+			arg:{
+				where_list:where_list,
+			},
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			// console.log(res)
+			if(res.status){
+				for(var i in res.list){
+					var item=res.list[i];
+					var rid=item.id;
+					var wid=item.wid;
+					var name=item.name;
+					// $scope.RoleList || ($scope.RoleList={});
+					$scope.RoleList[wid] || ($scope.RoleList[wid]={});
+					$scope.RoleList[wid][rid]=name;
+				}
+				// console.log($scope.RoleList)
+			}
+		})
+	}
+	$scope.resetAccessToken=function(item){
+		var post_data={
+			func_name:"UserList::resetAccessToken",
+			arg:{
+				id:item.id,
+			}
+		}
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			if(res.status){
+				item.access_token=res.update['access_token'];
+			}
+		})
+	}
+	
+	$scope.getWebList=function(){
+		var where_list=[];
+		
+		var post_data={
+			func_name:"WebList::getList",
+			arg:{
+				where_list:where_list,
+			},
+		};
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			if(res.status){
+				for(var i in res.list){
+					var item=res.list[i];
+					var id=item.id;
+					var name=item.name;
+					$scope.WebList || ($scope.WebList={})
+					$scope.WebList[id]=name;
+				}
+				
+			}
+		})
+	}
+	
+	$scope.setSearchRole=function(rid){
+		// console.log(rid,$scope.searchRole[rid])
+		var index=$scope.$ctrl.cache.searchRole.indexOf(rid);
+		if(index==-1){
+			$scope.$ctrl.cache.searchRole.push(rid);
+		}else{
+			$scope.$ctrl.cache.searchRole.splice(index,1);
+		}
+	}
+		// var where_list=[];
+		// var post_data={
+			// func_name:"UserRole::getList",
+			// arg:{
+				// where_list:where_list,
+			// },
+		// };
+		// $http.post("ajax.php",post_data).then(function(result){
+			// var res=result.data;
+			// if(res.status){
+				// for(var i in res.list){
+					// var item=res.list[i];
+					// var id=item.id;
+					// var name=item.name;
+					// $scope.WebList || ($scope.WebList={})
+					// $scope.WebList[id]=name;
+				// }
+				
+			// }
+		// })
+		// $scope.$ctrl.cache.where_list.uids
+		// console.log(rid)
+	// }
 }],
 })
