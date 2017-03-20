@@ -14,7 +14,7 @@ angular.module("app").directive("pagnation",[function() {
 					if($scope.data.count==0){
 						$scope.page_arr=[];
 					}else{
-						console.log($scope.data.total_count,$scope.data.count)
+						// console.log($scope.data.total_count,$scope.data.count)
 						$scope.page_count=Math.ceil($scope.data.total_count/$scope.data.count);
 						var page_arr=[];
 						for(var i=0;i<$scope.page_count;i++){

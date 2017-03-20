@@ -54,7 +54,6 @@ if(isset($_SESSION['rid'])){
 </pre>
 	<index 
 	ng-if="!cache.not_finish_flag"
-	class="container"
 	></index>
 </body>
 </html>
