@@ -1,86 +1,83 @@
-<div class="container">
-	<div class="col-xs-12" style="height:50px;" >
-	{{message}}
-	</div>
-	<div class="col-xs-12" style="height:50px;" >
-		<pagnation
-		data="cache.fbR_limit"
-		callback="get"
-		></pagnation>
-	</div>
-	<where-list 
-	data="fieldStruct" 
-	where-list="cache.fbR_where_list"
-	order-list="cache.fbR_order_list"
+<div class="col-xs-12" style="height:50px;" >
+{{message}}
+</div>
+<div class="col-xs-12" style="height:50px;" >
+	<pagnation
+	data="cache.fbR_limit"
 	callback="get"
-	></where-list>
-	<div class="col-xs-12 row"  >
-		<div class="col-xs-2">
-			<textarea 
-			placeholder="FB ID" 
-			ng-enter="add_where_list({field:'id',type:0,value:search.id});search.id=undefined;"
-			ng-model="search.id"
-			></textarea>
-		</div>
-		<div class="col-xs-1">
-			<textarea 
-			placeholder="名稱" 
-			ng-enter="add_where_list({field:'name',type:2,value:'%'+search.name+'%'});search.name=undefined;"
-			ng-model="search.name"
-			></textarea>
-		</div>
-		<div class="col-xs-2">
-			<textarea 
-			placeholder="Email" 
-			ng-enter="add_where_list({field:'email',type:2,value:'%'+search.email+'%'});search.email=undefined;"
-			ng-model="search.email"
-			></textarea>
-		</div>
-		<div class="col-xs-1">
-			<textarea 
-			placeholder="性別" 
-			ng-enter="add_where_list({field:'gender',type:2,value:'%'+search.gender+'%'});search.gender=undefined;"
-			ng-model="search.gender"
-			></textarea>
-		</div>
-		<div class="col-xs-1">
-			<select 
-			ng-change="add_where_list({field:'status',type:0,value:search.status},1);"
-			ng-options="status.id as status.name for status in status_list"
-			ng-model="search.status"
-			>
-			</select>
-		</div>
-		<div class="col-xs-2">申請時間</div>
-		<div class="col-xs-3">功能</div>
+	></pagnation>
+</div>
+<button
+ng-repeat="item in cache.fbR_where_list"
+class="btn btn-primary btn-sm"
+>{{item}}</button>
+{{cache.fbR_where_list}}
+<div class="col-xs-12 row"  >
+	<div class="col-xs-2">
+		<textarea 
+		placeholder="FB ID" 
+		ng-enter="add_where_list({field:'id',type:0,value:search.id});search.id=undefined;"
+		ng-model="search.id"
+		></textarea>
 	</div>
-	<div 
-	ng-repeat="item in list" 
-	class="col-xs-12 row" 
-	>
-		<div class="col-xs-2">{{item.id}}</div>
-		<div class="col-xs-1">{{item.name}}</div>
-		<div class="col-xs-2">{{item.email}}</div>
-		<div class="col-xs-1">{{item.gender}}</div>
-		<div class="col-xs-1">
-			{{fieldStruct.field[2].list[item.status].name}}
-		</div>
-		<div class="col-xs-2">{{item.created_time_int*1000 |date:'yyyy-MM-dd HH:mm'}}</div>
-		<div class="col-xs-3">			
-			<textarea 
-			style="width:100px;vertical-align: middle;"
-			placeholder="無輸入為新增帳號 或是 輸入使用者id為替換帳號，enter後執行"
-			ng-model="item.uid"
-			ng-enter="addUserList(item)"
-			></textarea>
-			
-			<select
-			ng-model="item.status"
-			ng-options="fieldList.id as fieldList.name for fieldList in fieldStruct.field[2].list"
-			ng-change="ch({status:item.status},{id:item.id})"
-			></select>
-			
-			
-		</div>
+	<div class="col-xs-1">
+		<textarea 
+		placeholder="名稱" 
+		ng-enter="add_where_list({field:'name',type:2,value:'%'+search.name+'%'});search.name=undefined;"
+		ng-model="search.name"
+		></textarea>
+	</div>
+	<div class="col-xs-2">
+		<textarea 
+		placeholder="Email" 
+		ng-enter="add_where_list({field:'email',type:2,value:'%'+search.email+'%'});search.email=undefined;"
+		ng-model="search.email"
+		></textarea>
+	</div>
+	<div class="col-xs-1">
+		<textarea 
+		placeholder="性別" 
+		ng-enter="add_where_list({field:'gender',type:2,value:'%'+search.gender+'%'});search.gender=undefined;"
+		ng-model="search.gender"
+		></textarea>
+	</div>
+	<div class="col-xs-1">
+		<select 
+		ng-change="add_where_list({field:'status',type:0,value:search.status},1);"
+		ng-options="status.id as status.name for status in status_list"
+		ng-model="search.status"
+		>
+		</select>
+	</div>
+	<div class="col-xs-2">申請時間</div>
+	<div class="col-xs-3">功能</div>
+</div>
+<div 
+ng-repeat="item in list" 
+class="col-xs-12 row" 
+>
+	<div class="col-xs-2">{{item.id}}</div>
+	<div class="col-xs-1">{{item.name}}</div>
+	<div class="col-xs-2">{{item.email}}</div>
+	<div class="col-xs-1">{{item.gender}}</div>
+	<div class="col-xs-1">
+		{{fieldStruct.field[2].list[item.status].name}}
+	</div>
+	<div class="col-xs-2">{{item.created_time_int*1000 |date:'yyyy-MM-dd HH:mm'}}</div>
+	<div class="col-xs-3">			
+		<textarea 
+		style="width:100px;vertical-align: middle;"
+		placeholder="無輸入為新增帳號 或是 輸入使用者id為替換帳號，enter後執行"
+		ng-model="item.uid"
+		ng-enter="addUserList(item)"
+		></textarea>
+		
+		<select
+		ng-model="item.status"
+		ng-options="fieldList.id as fieldList.name for fieldList in fieldStruct.field[2].list"
+		ng-change="ch({status:item.status},{id:item.id})"
+		></select>
+		
+		
 	</div>
 </div>

@@ -1,7 +1,6 @@
 <?php
 session_start();
 session_write_close();
-
 if(isset($_SESSION['rid'])){
 	if(in_array(0,$_SESSION['rid'])){
 		
@@ -36,24 +35,17 @@ if(isset($_SESSION['rid'])){
 <script src="app/components/roleData/roleData.js?t=<?=time();?>"></script>
 <script src="app/components/roleDataChild/roleDataChild.js?t=<?=time();?>"></script>
 
-
-
 <script src="app/components/blockList/blockList.js?t=<?=time();?>"></script>
-
 <script src="app/factories/crud.js?t=<?=time();?>"></script>
-
 
 <script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
 <script src="app/directives/ngEnter/ngEnter.js?t=<?=time();?>"></script>
 <script src="app/directives/ngRightClick/ngRightClick.js?t=<?=time();?>"></script>
 <script src="app/directives/sortable/sortable.js?t=<?=time();?>"></script>
 
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?t=<?=time();?>">
 <link rel="stylesheet" type="text/css" href="css/index.css?t=<?=time();?>">
-<script>
-if(window.location.hash){
-	window.location.href="http://"+window.location.hostname+window.location.pathname;
-}
-</script>
+
 </head>
 <body ng-app="app"  style="overflow-y:scroll;">
 <pre>

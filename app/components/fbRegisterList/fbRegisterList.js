@@ -1,53 +1,22 @@
 angular.module('app').component("fbRegisterList",{
 bindings:{
-	
+	cache:"=",
 },
 templateUrl:'app/components/fbRegisterList/fbRegisterList.html?t='+Date.now(),
-controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
+controller:["$scope",function($scope){
 	$scope.status_list=[
 		{id:0,name:"申請中"},
 		{id:1,name:"申請成功"},
 		{id:2,name:"已拒絕"},
-	]
-	$scope.fieldStruct={
-		field:[
-			{
-				enName:'id',
-				name:"fb_ID",
-			},
-			{
-				enName:'name',
-				name:"名稱",
-			},
-			{
-				enName:'status',
-				name:"狀態",
-				list:$scope.status_list,
-			},
-			{
-				enName:'created_time_int',
-				name:"創建時間",
-				type:1,
-			},
-			{
-				enName:'uid',
-				name:"會員id",
-			},
-		],
-		order:["created_time_int","id"],
-		default:{
-			where:{field:'status',type:"0",value:0},
-			order:{field:'created_time_int',type:"1"},
-		}
-	}
+	];
 	
 	
-	$scope.cache.fbR_limit || ($scope.cache.fbR_limit={page:0,count:10,total_count:0});
-	$scope.cache.fbR_where_list || ($scope.cache.fbR_where_list=[{field:'status',type:0,value:0}]);
-	$scope.cache.fbR_order_list || ($scope.cache.fbR_order_list=[{field:'created_time_int',type:1}]);
+	// $scope.cache.fbR_limit || ($scope.cache.fbR_limit={page:0,count:10,total_count:0});
+	// $scope.cache.fbR_where_list || ($scope.cache.fbR_where_list=[{field:'status',type:0,value:0}]);
+	// $scope.cache.fbR_order_list || ($scope.cache.fbR_order_list=[{field:'created_time_int',type:1}]);
 	
-	$scope.add_where_list=whereListFunc.add_where_list.bind(this,$scope.cache.fbR_where_list);
-	$scope.add_order_list=whereListFunc.add_order_list.bind(this,$scope.cache.fbR_order_list);
+	// $scope.add_where_list=whereListFunc.add_where_list.bind(this,$scope.cache.fbR_where_list);
+	// $scope.add_order_list=whereListFunc.add_order_list.bind(this,$scope.cache.fbR_order_list);
 
 	
 	$scope.get=function(){
