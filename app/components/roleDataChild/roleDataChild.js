@@ -71,8 +71,6 @@ controller:["$scope","crud",function($scope,crud){
 			}
 			add_relation(item);
 		}
-		
 	}
-	
 }],
 })

@@ -76,46 +76,11 @@ controller:["$scope","$http",function($scope,$http){
 		});
 	}
 	$scope.addUserList=function(item){
-		if(item.uid){
-			var update={
-				fb_id:item.id,
-				// name:item.name,
-			}
-			var where={
-				id:item.uid,
-			}
-			crud.ch("UserList",{update:update,where:where})
-			.then(function(res){
-				if(res.status){
-					$scope.ch({status:1,uid:item.uid},{id:item.id});
-					alert("註冊成功")
-				}else{
-					alert("註冊失敗")
-					if(res.reload){
-						location.reload();
-					}
-				}
-				$scope.$apply();
-			})
-		}else{
-			var add={
-				fb_id:item.id,
-				name:item.name,
-			}
-			crud.add("UserList",add)
-			.then(function(res){
-				if(res.status){
-					$scope.ch({status:1,uid:item.uid},{id:item.id});
-					alert("註冊成功")
-				}else{
-					alert("註冊失敗")
-					if(res.reload){
-						location.reload();
-					}
-				}
-				$scope.$apply();
-			})
-		}
+		$scope.ch({
+			uid:item.uid,
+		},{
+			id:item.id,
+		})
 	}
 	
 }],

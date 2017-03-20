@@ -5,7 +5,7 @@ ng-model="aid"
 style="width:50px;"
 />
 <button 
-ng-show="item.aid"
+ng-show="item.aid!=0"
 ng-click="relation(item)"
 ng-repeat="item in $ctrl.list[$ctrl.did][$ctrl.action]"
 class="btn btn-sm btn-danger"
