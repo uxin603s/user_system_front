@@ -3,7 +3,7 @@ bindings:{
 	
 },
 templateUrl:'app/components/userList/userList.html?t='+Date.now(),
-controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
+controller:["$scope",function($scope){
 	$scope.status_list=[
 		{id:"0",name:"空缺"},
 		{id:"1",name:"在職"},
@@ -44,11 +44,12 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 	$scope.cache.user_where_list || ($scope.cache.user_where_list=[{field:'status',type:0,value:1}]);
 	$scope.cache.user_order_list || ($scope.cache.user_order_list=[]);
 	
-	$scope.add_where_list=whereListFunc.add_where_list.bind(this,$scope.cache.user_where_list);
-	$scope.add_order_list=whereListFunc.add_order_list.bind(this,$scope.cache.user_order_list);
+	// $scope.add_where_list=whereListFunc.add_where_list.bind(this,$scope.cache.user_where_list);
+	// $scope.add_order_list=whereListFunc.add_order_list.bind(this,$scope.cache.user_order_list);
 	
 	
 	$scope.get=function(){
+		return
 		clearTimeout($scope.getTimer);
 		$scope.getTimer=setTimeout(function(){
 			$scope.message="查詢中...";
@@ -151,6 +152,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 	
 	$scope.weblist={};
 	$scope.getWeb=function(){
+		return
 		crud.get("webList")
 		.then(function(res){
 			$scope.weblist.list=[];
@@ -176,6 +178,7 @@ controller:["$scope","crud","whereListFunc",function($scope,crud,whereListFunc){
 	
 	$scope.rolelist={};
 	$scope.getRole=function(){
+		return
 		crud.get("roleList")
 		.then(function(res){
 			$scope.rolelist.list=[];

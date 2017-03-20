@@ -12,7 +12,7 @@
 		狀態:
 		<button
 		ng-class="$ctrl.cache.where_list.status==$index?'btn-danger':'btn-primary'"
-		ng-click="$ctrl.cache.where_list.status==$index?$ctrl.cache.where_list.status==undefined:$ctrl.cache.where_list.status=$index"
+		ng-click="$ctrl.cache.where_list.status==$index?$ctrl.cache.where_list.status=undefined:$ctrl.cache.where_list.status=$index"
 		ng-repeat="item in status_list"
 		class="btn  btn-sm"
 		>{{item}}</button>
@@ -20,23 +20,29 @@
 		<button
 		
 		ng-class="$ctrl.cache.where_list.uid_bind_fb_id==$index?'btn-danger':'btn-primary'"
-		ng-click="$ctrl.cache.where_list.uid_bind_fb_id==$index?$ctrl.cache.where_list.uid_bind_fb_id==undefined:$ctrl.cache.where_list.uid_bind_fb_id=$index"
+		ng-click="$ctrl.cache.where_list.uid_bind_fb_id==$index?$ctrl.cache.where_list.uid_bind_fb_id=undefined:$ctrl.cache.where_list.uid_bind_fb_id=$index"
 		
 		ng-repeat="item in uid_bind_fb_id"
 		class="btn btn-primary btn-sm"
 		>{{item}}</button>
+	快速篩選:<button
+	ng-click="$ctrl.cache.where_list.status=0;$ctrl.cache.where_list.uid_bind_fb_id=0;"
+	class="btn btn-sm btn-info"
+	>審核人員</button>
 	<button
-	ng-repeat="item in $ctrl.cache.where_list"
-	class="btn btn-primary btn-sm"
-	>{{item}}</button>
+	ng-click="$ctrl.cache.where_list.status=1;$ctrl.cache.where_list.uid_bind_fb_id=0;"
+	class="btn btn-sm btn-info"
+	>未綁定</button>
 </div>
 <div 
 ng-repeat="item in list" 
-style="border: 4px #000000 solid;float:left;width:200px;height:350px;"
+style="border: 4px #000000 solid;float:left;width:250px;height:350px;"
 class="text-center" 
 >
 	<div class="col-xs-12 bottom_line">
-		<img ng-src="https://graph.facebook.com/{{item.id}}/picture?width=150&height=150" />
+		<img 
+		style="width:150px;height:150px;"
+		ng-src="https://graph.facebook.com/{{item.id}}/picture?width=150&height=150" />
 	</div>
 	<div class="col-xs-12 bottom_line">
 		姓名:{{item.name}}
@@ -51,24 +57,22 @@ class="text-center"
 		狀態:<select
 		ng-model="item.status"
 		ng-options="index as status for (index,status) in status_list"
-		ngd-change="ch({status:item.status},{id:item.id})"
+		ng-change="ch({status:item.status},{id:item.id})"
 		></select>
 	</div>
 	<div class="col-xs-12 bottom_line">	
 		申請時間:{{item.created_time_int*1000 |date:'yyyy-MM-dd HH:mm'}}
 	</div>	
 	<div class="col-xs-12 bottom_line">	
-		<div ng-if="item.uid==0">
-			<input 
-			type="text"
-			style="width:100px;vertical-align: middle;"
-			placeholder="無輸入為新增帳號 或是 輸入使用者id為替換帳號，enter後執行"
-			ng-model="item.uid"
-			/>
-			<button
-			ng-enter="addUserList(item)"
-			class="btn btn-sm btn-primary"
-			>綁定使用者ID</button>
-		</div>
+		<input 
+		type="text"
+		style="width:100px;vertical-align:middle;"
+		placeholder="無輸入為新增帳號 或是 輸入使用者id為替換帳號，enter後執行"
+		ng-model="item.uid"
+		/>
+		<button
+		ng-enter="addUserList(item)"
+		class="btn btn-sm btn-primary"
+		>綁定使用者ID</button>{{item.uid}}
 	</div>
 </div>

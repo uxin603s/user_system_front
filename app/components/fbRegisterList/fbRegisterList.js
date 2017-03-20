@@ -10,12 +10,12 @@ controller:["$scope","$http",function($scope,$http){
 		"拒絕",
 	];
 	$scope.uid_bind_fb_id=[
-		"綁定",
 		"未綁定",
+		"綁定",
 	];
 	$scope.$ctrl.$onInit=function(){
 		$scope.$ctrl.cache.limit || ($scope.$ctrl.cache.limit={page:0,count:10,total_count:0});
-		$scope.$ctrl.cache.where_list || ($scope.$ctrl.cache.where_list={});
+		$scope.$ctrl.cache.where_list || ($scope.$ctrl.cache.where_list={status:0});
 		// $scope.$ctrl.cache.order_list || ($scope.$ctrl.cache.);
 		var timer;
 		$scope.page_get=function(){
@@ -23,7 +23,6 @@ controller:["$scope","$http",function($scope,$http){
 			timer=setTimeout($scope.get,50)
 		}
 		$scope.$watch("$ctrl.cache.where_list",function(where_list){
-			console.log(where_list)
 			$scope.page_get();
 		},1)
 	}
@@ -38,7 +37,6 @@ controller:["$scope","$http",function($scope,$http){
 		if(!isNaN(uid_bind_fb_id)){
 			where_list.push({field:'uid',type:uid_bind_fb_id,value:0})
 		}
-		console.log(where_list)
 		$scope.message="查詢中...";
 		var post_data={
 			func_name:"FbRegisterList::getList",
@@ -65,14 +63,17 @@ controller:["$scope","$http",function($scope,$http){
 		})
 	}
 	$scope.ch=function(update,where){
-		crud.ch("FbRegisterList",{
-			update:update,
-			where:where,
-		})
-		.then(function(res){
-			$scope.get();
-			$scope.$apply();
-		})
+		var post_data={
+			func_name:"FbRegisterList::update",
+			arg:{
+				update:update,
+				where:where,
+			},
+		}
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			console.log(res)
+		});
 	}
 	$scope.addUserList=function(item){
 		if(item.uid){
@@ -105,7 +106,6 @@ controller:["$scope","$http",function($scope,$http){
 			.then(function(res){
 				if(res.status){
 					$scope.ch({status:1,uid:item.uid},{id:item.id});
-					
 					alert("註冊成功")
 				}else{
 					alert("註冊失敗")

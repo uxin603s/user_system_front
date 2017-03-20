@@ -48,6 +48,10 @@ if(isset($_SESSION['rid'])){
 
 </head>
 <body ng-app="app"  style="overflow-y:scroll;">
+<script type="text/ng-template" id="pagnation.html" >
+	<div ng-include="'app/directives/pagnation/pagnation.html?t=<?=time();?>'"></div>
+</script>
+
 <pre>
 <?=$_SESSION['name']?$_SESSION['name']:"最高高權限"?>
 <?=json_encode($_SESSION['rid'])?>
