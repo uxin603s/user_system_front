@@ -59,6 +59,7 @@ class="col-xs-12 row"
 	</div>
 	<div class="col-xs-1">
 		<textarea 
+		class="form-control"
 		ng-init="data.wid=item.id"
 		placeHolder="enter新增資料表"
 		ng-enter="addRelation('DataList',data)"
@@ -82,6 +83,7 @@ class="col-xs-12 row"
 			ng-right-click="show=!show"
 			>{{data.name}}</button>
 			<textarea 
+			class="form-control"
 			ng-show="show"
 			ng-enter="chRelationText('DataList',{name:data.name},{id:data.id});show=!show"
 			ng-model="data.name" 
@@ -90,6 +92,7 @@ class="col-xs-12 row"
 	</div>
 	<div class="col-xs-1">
 		<textarea 
+		class="form-control"
 		ng-init="role.wid=item.id"
 		placeHolder="enter新增角色"
 		ng-enter="addRelation('RoleList',role)"
@@ -112,6 +115,7 @@ class="col-xs-12 row"
 			
 			>{{Role.name}}</button>
 			<textarea 
+			class="form-control"
 			ng-show="show"
 			ng-enter="chRelationText('RoleList',{name:Role.name},{id:Role.id});show=!show"
 			ng-model="Role.name" 
