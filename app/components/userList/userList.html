@@ -44,7 +44,7 @@
 	>{{item}}</button>
 	名稱:<input type="text" ng-model="$ctrl.cache.where_list.name" />
 </div>
-<div class="col-xs-12"  >
+<div class="col-xs-12 bottom_line"  >
 	<input 
 	type="text" 
 	placeholder="新增帳號"
@@ -57,22 +57,22 @@
 </div>
 <div 
 ng-repeat="item in list" 
-style="border: 4px #000000 solid;float:left;width:350px;height:350px;"
-class="text-left" 
+style="height:50px;"
+class="text-left col-xs-12 row" 
 >
-	<div class="col-xs-12 bottom_line" >id:{{item.id}}</div>
-	<div class="col-xs-12 bottom_line" >
+	<div class="col-xs-1 " >id:{{item.id}}</div>
+	<div class="col-xs-1 " >
 		名稱:{{item.name}}
 	</div>
 	
-	<div class="col-xs-12 bottom_line">
+	<div class="col-xs-2 ">
 		{{item.access_token}}
 		<button 
 		ng-click="resetAccessToken(item);"
 		class="btn btn-sm btn-primary"
 		>刷新</button>
 	</div>
-	<div class="col-xs-12 bottom_line">
+	<div class="col-xs-1 ">
 		狀態:<select 
 		ng-change="ch({status:item.status},{id:item.id})"
 		ng-model="item.status"
@@ -81,7 +81,7 @@ class="text-left"
 		</select>
 	</div>
 	
-	<div class="col-xs-12 bottom_line">
+	<div class="col-xs-6 ">
 		<button
 		ng-class="UserRole[item.id] && UserRole[item.id][0]?'btn-danger':'btn-primary'"
 		ng-click="swUserRole({uid:item.id,rid:'0'})"

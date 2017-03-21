@@ -76,10 +76,22 @@ controller:["$scope","$http",function($scope,$http){
 		});
 	}
 	$scope.addUserList=function(item){
-		$scope.ch({
-			uid:item.uid,
-		},{
-			id:item.id,
+		var where_list=[
+			{field:'uid',type:0,value:item.uid},
+		];
+		var post_data={
+			func_name:"FbRegisterList::getList",
+			arg:{
+				where_list:where_list,
+			},
+		}
+		$http.post("ajax.php",post_data).then(function(result){
+			var res=result.data;
+			if(res.status){
+				alert("已經有人使用");
+			}else{
+				$scope.ch({uid:item.uid},{id:item.id});
+			}
 		})
 	}
 	

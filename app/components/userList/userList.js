@@ -75,6 +75,8 @@ controller:["$scope","$http","$timeout",function($scope,$http,$timeout){
 			for(var i in id){
 				where_list.push({field:'id',type:0,value:id[i]})
 			}
+		}else{
+			// return
 		}
 		var status=$scope.$ctrl.cache.where_list.status;
 		if(!isNaN(status)){
@@ -290,28 +292,6 @@ controller:["$scope","$http","$timeout",function($scope,$http,$timeout){
 			$scope.$ctrl.cache.searchRole.splice(index,1);
 		}
 	}
-		// var where_list=[];
-		// var post_data={
-			// func_name:"UserRole::getList",
-			// arg:{
-				// where_list:where_list,
-			// },
-		// };
-		// $http.post("ajax.php",post_data).then(function(result){
-			// var res=result.data;
-			// if(res.status){
-				// for(var i in res.list){
-					// var item=res.list[i];
-					// var id=item.id;
-					// var name=item.name;
-					// $scope.WebList || ($scope.WebList={})
-					// $scope.WebList[id]=name;
-				// }
-				
-			// }
-		// })
-		// $scope.$ctrl.cache.where_list.uids
-		// console.log(rid)
-	// }
+	
 }],
 })
