@@ -34,6 +34,7 @@ if(isset($_SESSION['rid'])){
 <script src="app/components/webList/webList.js?t=<?=time();?>"></script>
 <script src="app/components/roleData/roleData.js?t=<?=time();?>"></script>
 <script src="app/components/roleDataChild/roleDataChild.js?t=<?=time();?>"></script>
+<script src="app/components/ipList/ipList.js?t=<?=time();?>"></script>
 
 <script src="app/components/blockList/blockList.js?t=<?=time();?>"></script>
 <script src="app/factories/crud.js?t=<?=time();?>"></script>

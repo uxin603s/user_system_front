@@ -1,64 +1,48 @@
 angular.module('app').component("webList",{
 bindings:{
-	
+	cache:"=",
 },
 templateUrl:'app/components/webList/webList.html?t='+Date.now(),
 controller:["$scope","crud",function($scope,crud){
-	$scope.fieldStruct={
-		field:[
-			{
-				enName:'id',
-				name:"ID",
-			},
-			{
-				enName:'name',
-				name:"名稱",
-			},
-		],
-		order:["id"],
-		default:{
-			where:{field:'name',type:"2"},
-			order:{field:'id',type:"1"},
+	
+	$scope.$ctrl.$onInit=function(){
+		$scope.$ctrl.cache.limit || ($scope.$ctrl.cache.limit={page:0,count:10,total_count:0});
+		$scope.page_get=function(){
+			clearTimeout($scope.getTimer);
+			$scope.getTimer=setTimeout($scope.get,50)
 		}
 	}
 	
-	$scope.cache.limit || ($scope.cache.limit={page:0,count:10,total_count:0});
-	$scope.cache.where_list || ($scope.cache.where_list=[]);
-	$scope.cache.order_list || ($scope.cache.order_list=[]);
-	
-		
 	$scope.get=function(){
 		$scope.message="查詢中...";
-		clearTimeout($scope.getTimer);
-		$scope.getTimer=setTimeout(function(){
-			// console.log($scope.cache.limit)
-			crud.get("WebList",{
-				where_list:$scope.cache.where_list,
-				order_list:$scope.cache.order_list,
-				limit:$scope.cache.limit,
-			})
-			.then(function(res){
-				// console.log(res)
-				if(res.status){
-					$scope.message="完成查詢!!";
-					$scope.list=res.list;
-					var ids=res.list.map(function(res){
-						return res.id;
-					});
-					$scope.getRelation("RoleList",ids);
-					$scope.getRelation("DataList",ids);
-				}else{
-					$scope.message="完成查詢，沒有資料!!";
-					$scope.list=[];
-					if(res.reload){
-						location.reload();
-					}
+		
+		crud.get("WebList",{
+			limit:$scope.$ctrl.cache.limit,
+		})
+		.then(function(res){
+			// console.log(res)
+			if(res.status){
+				$scope.message="完成查詢!!";
+				$scope.list=res.list;
+				var ids=res.list.map(function(res){
+					return res.id;
+				});
+				$scope.$ctrl.cache.limit.total_count=res.total_count;
+				$scope.getRelation("RoleList",ids);
+				$scope.getRelation("DataList",ids);
+			}else{
+				$scope.message="完成查詢，沒有資料!!";
+				$scope.list=[];
+				$scope.$ctrl.cache.limit.total_count=0;
+				if(res.reload){
+					location.reload();
 				}
-				// console.log(res)
-				$scope.cache.limit.total_count=res.total_count;
-				$scope.$apply();
-			})
-		},50)
+			}
+			// console.log(res)
+			
+			$scope.$apply();
+		})
+		
 	}
 	
 	
