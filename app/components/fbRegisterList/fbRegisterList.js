@@ -88,10 +88,11 @@ controller:["$scope","$http",function($scope,$http){
 		$http.post("ajax.php",post_data).then(function(result){
 			var res=result.data;
 			if(res.status){
-				alert("已經有人使用");
-			}else{
-				$scope.ch({uid:item.uid},{id:item.id});
+				if(!confirm("已經有人使用，確定覆蓋?")){
+					return
+				}
 			}
+			$scope.ch({uid:item.uid},{id:item.id});
 		})
 	}
 	
