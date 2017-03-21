@@ -20,7 +20,7 @@ controller:["$scope","$http","$timeout",function($scope,$http,$timeout){
 			$scope.page_get();
 		},1)
 	}
-	
+	$scope.confirm=window.confirm.bind(window);
 	
 	$scope.status_arr=["黑名單","白名單"];
 	$scope.add=function(arg){
@@ -96,6 +96,7 @@ controller:["$scope","$http","$timeout",function($scope,$http,$timeout){
 		})
 	}
 	$scope.del=function(index){
+		if(!confirm("確定刪除?"))return;
 		var item=$scope.list.splice(index,1).pop();
 		var ip=item.ip
 		var post_data={

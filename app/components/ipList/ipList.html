@@ -61,7 +61,7 @@ ng-repeat="item in list"
 		class="btn btn-sm btn-info"
 		>刪除</button>
 		<button
-		ng-click="ch({keep_time_int:-1},{ip:item.ip});item.keep_time_int=-1"
+		ng-click="confirm('確認修改?') && ch({keep_time_int:-1},{ip:item.ip});item.keep_time_int=-1"
 		class="btn btn-sm btn-info"
 		>永久</button>
 	</div>
