@@ -25,24 +25,26 @@ class="col-xs-12 row"
 	<div class="col-xs-1">
 	id
 	</div>
-	<div class="col-xs-2">
+	<div class="col-xs-1">
 	網站名稱
 	</div>
-	<div class="col-xs-1">
-	新增資料表
-	</div>
-	<div class="col-xs-3">
+	
+	<div class="col-xs-2">
 	資料表列表
 	</div>
-	<div class="col-xs-1">
-	新增角色
-	</div>
-	<div class="col-xs-3">
+	<div class="col-xs-2">
 	角色列表
+	</div>
+	<div class="col-xs-1">
+	網址
 	</div>
 	<div class="col-xs-1">
 	功能
 	</div>
+	<div class="col-xs-1">
+	註記(未完成)
+	</div>
+	
 </div>
 <div 
 ng-repeat="item in list" 
@@ -52,28 +54,30 @@ style="height:50px;"
 	<div class="col-xs-1">
 	{{item.id}}
 	</div>
-	<div class="col-xs-2">
+	<div class="col-xs-1">
 		<textarea 
+		class="form-control"
 		ng-change="text_ch({name:item.name},{id:item.id})"
 		ng-model="item.name" 
 		></textarea>
 	</div>
-	<div class="col-xs-1">
+	
+	<div class="col-xs-2" style="white-space:nowrap;">	
 		<textarea 
+		style="width:100px;display:inline-block;vertical-align: top;"
 		class="form-control"
 		ng-init="data.wid=item.id"
 		placeHolder="enter新增資料表"
 		ng-enter="addRelation('DataList',data)"
 		ng-model="data.name" 
 		></textarea>
-	</div>
-	
-	<div class="col-xs-3" style="white-space:nowrap;">	
+		
 		<div
-		style="display:inline-block;"
+		style="display:inline-block;vertical-align: top;"
 		ng-repeat="data in DataList[item.id]"
 		>
 			<button
+			style="vertical-align: top;"
 			ng-show="!show"
 			class="btn btn-sm btn-primary"
 			draggable="true"
@@ -84,6 +88,7 @@ style="height:50px;"
 			ng-right-click="show=!show"
 			>{{data.name}}</button>
 			<textarea 
+			style="vertical-align: top;"
 			class="form-control"
 			ng-show="show"
 			ng-enter="chRelationText('DataList',{name:data.name},{id:data.id});show=!show"
@@ -91,31 +96,34 @@ style="height:50px;"
 			></textarea>
 		</div>
 	</div>
-	<div class="col-xs-1">
+
+	<div class="col-xs-2" >
 		<textarea 
+		style="width:100px;display:inline-block;vertical-align: top;"
 		class="form-control"
 		ng-init="role.wid=item.id"
 		placeHolder="enter新增角色"
 		ng-enter="addRelation('RoleList',role)"
 		ng-model="role.name" 
 		></textarea>
-	</div>
-	<div class="col-xs-3" >
 		<div
-		style="display:inline-block;"
+		style="display:inline-block;vertical-align: top;"
 		ng-repeat="Role in RoleList[item.id]"
+		draggable="true"
+		sortable="RoleList[item.id]"
+		index="$index"
 		>
 			<button
+			style="vertical-align: top;"
 			class="btn btn-sm btn-primary"
 			ng-show="!show"
-			draggable="true"
-			sortable="RoleList[item.id]"
-			index="$index"
+			
 			ng-right-click="show=!show"
 			ng-click="delRelation('RoleList',Role)"
 			
 			>{{Role.name}}</button>
 			<textarea 
+			style="vertical-align: top;"
 			class="form-control"
 			ng-show="show"
 			ng-enter="chRelationText('RoleList',{name:Role.name},{id:Role.id});show=!show"
@@ -124,9 +132,24 @@ style="height:50px;"
 		</div>
 	</div>
 	<div class="col-xs-1" >
+		<textarea 
+		placeHolder="刷新session_url"
+		style="vertical-align: top;"
+		class="form-control"
+		></textarea>
+	</div>
+	<div class="col-xs-1" >
 		<button
 		class="btn btn-sm btn-primary"
 		ng-click="del($index)"
 		>刪除</button>
+	</div>
+	<div class="col-xs-1" >
+		<textarea 
+		style="vertical-align: top;"
+		class="form-control"
+		
+		ng-model="item.comment" 
+		></textarea>
 	</div>
 </div>

@@ -24,10 +24,11 @@ controller:["$scope","crud",function($scope,crud){
 			if(res.status){
 				$scope.message="完成查詢!!";
 				$scope.list=res.list;
+				
+				$scope.$ctrl.cache.limit.total_count=res.total_count;
 				var ids=res.list.map(function(res){
 					return res.id;
 				});
-				$scope.$ctrl.cache.limit.total_count=res.total_count;
 				$scope.getRelation("RoleList",ids);
 				$scope.getRelation("DataList",ids);
 			}else{
